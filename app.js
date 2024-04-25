@@ -1,26 +1,39 @@
 const PORT = "http://127.0.0.1:8000/";
 const authToken = "bWFybG9uQGdtYWlsLmNvbTptYXJsb24xMjM0";
 
-function getAllUsers(event) {
-    const path = PORT + "users";
+async function getAllUsers(event) {
+    try {
+        const path = PORT + "users";
+        const res = await fetch(path);
 
-    fetch(path, {
-        headers: {
-            Authorization: `Basic ${authToken}`,
-        },
-    })
-        .then((response) => {
-            if (!response.ok) {
-                throw new Error("Network response was not ok");
-            }
-            return response.json();
-        })
-        .then((data) => {
-            console.log(data);
-        })
-        .catch((error) => {
-            console.error("Error:", error);
-        });
+        if (!res.ok) {
+            throw new Error("Network response was not ok");
+        }
+
+        const data = await res.json();
+        console.log(data);
+        let table = document.getElementById("my-table");
+        let tbody = table.getElementsByTagName("tbody")[0];
+        tbody.innerHTML = "";
+        for (const user of data) {
+            let tr = document.createElement("tr");
+            let id = document.createElement("td");
+            id.innerText = user.id;
+            let nome = document.createElement("td");
+            nome.innerText = user.name;
+            let email = document.createElement("td");
+            email.innerText = user.email;
+            let created = document.createElement("td");
+            created.innerText = user.created_at;
+            tr.appendChild(id);
+            tr.appendChild(nome);
+            tr.appendChild(email);
+            tr.appendChild(created);
+            tbody.appendChild(tr);
+        }
+    } catch (error) {
+        console.log("Error: ", error);
+    }
 }
 
 function createUser(event) {
@@ -64,7 +77,17 @@ function createUser(event) {
         })
         .then((data) => {
             console.log(data);
+
+            let container = document.getElementsByClassName("result-criar")[0];
+            let h3s = container.getElementsByTagName("h3");
+            h3s[0].innerText = "ID: " + data.id;
+            h3s[1].innerText = "Nome: " + data.name;
+            h3s[2].innerText = "Email: " + data.email;
+            h3s[3].innerText = "Data de Criacão: " + data.created_at;
+            container.setAttribute("style", "display: block");
+
             alert("Usuário criado com sucesso!");
+            getAllUsers();
         })
         .catch((error) => {
             console.error("Error:", error);
@@ -93,7 +116,17 @@ function getUserByID(event) {
         })
         .then((data) => {
             console.log(data);
+
+            let container = document.getElementsByClassName("result-get-id")[0];
+            let h3s = container.getElementsByTagName("h3");
+            h3s[0].innerText = "ID: " + data.id;
+            h3s[1].innerText = "Nome: " + data.name;
+            h3s[2].innerText = "Email: " + data.email;
+            h3s[3].innerText = "Data de Criacão: " + data.created_at;
+            container.setAttribute("style", "display: block");
+
             alert("Usuário encontrado com sucesso!");
+            getAllUsers();
         })
         .catch((error) => {
             console.error("Error:", error);
@@ -124,8 +157,12 @@ function deleteUser(event) {
         .then((data) => {
             console.log(data);
             alert("Usuário deletado com sucesso!");
+            document.getElementById("delete-user-id-input").value = "";
+            getAllUsers();
         })
         .catch((error) => {
+            alert("Usuário não encontrado");
+            document.getElementById("delete-user-id-input").value = "";
             console.error("Error:", error);
         });
 }
@@ -206,18 +243,49 @@ function updateUser(event) {
         })
         .then((data) => {
             console.log(data);
+
+            let container = document.getElementsByClassName("result-update")[0];
+            let h3s = container.getElementsByTagName("h3");
+            h3s[0].innerText = "ID: " + data.id;
+            h3s[1].innerText = "Nome: " + data.name;
+            h3s[2].innerText = "Email: " + data.email;
+            h3s[3].innerText = "Data de Criacão: " + data.created_at;
+            container.setAttribute("style", "display: block");
+
             alert("Usuário atualizado com sucesso!");
+            getAllUsers();
         })
         .catch((error) => {
             console.error("Error:", error);
         });
 }
 
-//Render functions
+function clearTable() {
+    let table = document.getElementById("my-table");
+    let tbody = table.getElementsByTagName("tbody")[0];
+    tbody.innerHTML = "";
+}
+function clearCreated() {
+    document.getElementsByClassName("result-criar")[0].innerHTML = "";
+    let inputs = document
+        .getElementById("user-form")
+        .getElementsByTagName("input");
+    inputs[0].value = "";
+    inputs[1].value = "";
+    inputs[2].value = "";
+}
 
-function renderGetAll(data) {
-    let table = document
-        .getElementById("result-getAll")
-        .getElementsByTagName(table)[0];
-    console.log(table);
+function clearUpdate() {
+    document.getElementsByClassName("result-update")[0].innerHTML = "";
+    let inputs = document
+        .getElementById("update-user-form")
+        .getElementsByTagName("input");
+    inputs[0].value = "";
+    inputs[1].value = "";
+    inputs[2].value = "";
+}
+
+function clearID() {
+    document.getElementsByClassName("result-get-id")[0].innerHTML = "";
+    document.getElementById("user-id-input").value = "";
 }
