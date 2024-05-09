@@ -1,10 +1,130 @@
 const PORT = "http://127.0.0.1:8000/";
-const authToken = "bWFybG9uQGdtYWlsLmNvbTptYXJsb24xMjM0";
+let authToken = "";
+
+function generateToken(event) {
+    let inputs = document.getElementsByTagName("input");
+    let email = inputs[0].value;
+    let senha = inputs[1].value;
+
+    if (email == "" && senha == "") {
+        alert("Preencha todos os campos");
+    } else if (email == "") {
+        alert("Preencha o email");
+    } else if (senha == "") {
+        alert("Preencha a senha");
+    } else {
+        let token = email + ":" + senha;
+        token = btoa(token);
+        verify_user(token);
+        // // authToken = token;
+        // sessionStorage.setItem("token", token);
+        // window.location.href = "home.html";
+        // event.preventDefault();
+    }
+    event.preventDefault();
+}
+
+window.addEventListener("load", (e) => {
+    if (window.location.href == "http://127.0.0.1:8080/home.html") {
+        authToken = sessionStorage.getItem("token");
+        console.log(authToken);
+    }
+});
+
+async function verify_user(token) {
+    let userID = 1;
+    let path = PORT + `users/${userID}`;
+
+    fetch(path, {
+        headers: {
+            Authorization: `Basic ${token}`,
+        },
+    })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error("Network response was not ok");
+            }
+            return response.json();
+        })
+        .then((data) => {
+            sessionStorage.setItem("token", token);
+            window.location.href = "home.html";
+        })
+        .catch((error) => {
+            console.error("Error:", error);
+            window.location.href = "create.html";
+        });
+}
+
+function createAccount(event) {
+    let inputs = document.getElementsByTagName("input");
+    let nome = inputs[0].value;
+    let email = inputs[1].value;
+    let senha = inputs[2].value;
+
+    if (nome == "" || email == "" || senha == "") {
+        alert("Preencha todos os campos");
+    } else {
+        createRedirect(nome, email, senha);
+    }
+    event.preventDefault();
+}
+
+async function createRedirect(nome, email, senha) {
+    console.log("here");
+    const path = PORT + "users";
+    const userData = {
+        name: nome,
+        email: email,
+        password: senha,
+    };
+
+    fetch(path, {
+        method: "POST",
+        headers: {
+            // Authorization: `Basic ${authToken}`,
+            "Content-Type": "application/json",
+        },
+
+        body: JSON.stringify(userData),
+    })
+        .then((res) => {
+            if (!res.ok) {
+                throw new Error("Network response was not ok");
+            }
+            return res.json();
+        })
+        .then((data) => {
+            console.log(data);
+            let token = email + ":" + senha;
+            token = btoa(token);
+            sessionStorage.setItem("token", token);
+            alert("Usuário criado com sucesso!");
+            window.location.href = "home.html";
+        })
+        .catch((error) => {
+            console.error("Error:", error);
+        });
+}
 
 async function getAllUsers(event) {
     try {
         const path = PORT + "users";
-        const res = await fetch(path);
+        const res = await fetch(path, {
+            method: "GET",
+            headers: {
+                Authorization: `Basic ${sessionStorage.getItem("token")}`,
+            },
+        });
+        // fetch(path, {
+        //     method: "PUT",
+        //     headers: {
+        //         Authorization: `Basic ${sessionStorage.getItem("token")}`,
+        //         "Content-Type": "application/json",
+        //     },
+
+        //     body: JSON.stringify(userData),
+        // })
 
         if (!res.ok) {
             throw new Error("Network response was not ok");
@@ -63,7 +183,7 @@ function createUser(event) {
     fetch(path, {
         method: "POST",
         headers: {
-            Authorization: `Basic ${authToken}`,
+            // Authorization: `Basic ${authToken}`,
             "Content-Type": "application/json",
         },
 
@@ -105,7 +225,7 @@ function getUserByID(event) {
 
     fetch(path, {
         headers: {
-            Authorization: `Basic ${authToken}`,
+            Authorization: `Basic ${sessionStorage.getItem("token")}`,
         },
     })
         .then((response) => {
@@ -145,7 +265,7 @@ function deleteUser(event) {
     fetch(path, {
         method: "DELETE",
         headers: {
-            Authorization: `Basic ${authToken}`,
+            Authorization: `Basic ${sessionStorage.getItem("token")}`,
         },
     })
         .then((res) => {
@@ -229,7 +349,7 @@ function updateUser(event) {
     fetch(path, {
         method: "PUT",
         headers: {
-            Authorization: `Basic ${authToken}`,
+            Authorization: `Basic ${sessionStorage.getItem("token")}`,
             "Content-Type": "application/json",
         },
 
@@ -253,6 +373,9 @@ function updateUser(event) {
             container.setAttribute("style", "display: block");
 
             alert("Usuário atualizado com sucesso!");
+            let token = email + ":" + senha;
+            token = btoa(token);
+            sessionStorage.setItem("token", token);
             getAllUsers();
         })
         .catch((error) => {

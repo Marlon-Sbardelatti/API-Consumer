@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Berkshire+Swash&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <div class="global">
+      <div style="" class="container">
+        <h1>Buscar todos Usuários</h1>
+        <button onclick="getAllUsers(event)" id="btn-get-all">Buscar</button>
+        <button
+          type=""
+          onclick="clearTable()"
+          style="background-color: #e46170"
+        >
+          Limpar
+        </button>
+        <div id="result-getAll" style="margin-top: 1rem">
+          <table id="my-table">
+            <thead>
+              <tr>
+                <th>Id</th>
+                <th>Nome</th>
+                <th>Email</th>
+                <th>Data de Criação</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+      <div style="" class="container">
+        <h1>Criar Usuário</h1>
+        <div style="display: flex; align-items: center">
+          <form action="" id="user-form">
+            <input type="text" name="username" value="" placeholder="Nome" />
+            <input type="text" name="email" value="" placeholder="Email" />
+            <input
+              type="password"
+              name="password"
+              value=""
+              placeholder="Senha"
+            />
+          </form>
+          <button
+            type=""
+            onclick="createUser(event)"
+            style="margin-left: 0.4rem"
+          >
+           Criar 
+          </button>
+        </div>
+        <div class="result-criar" style="display: none">
+          <h2>Usuário criado:</h2>
+          <h3>id</h3>
+          <h3>nome</h3>
+          <h3>email</h3>
+          <h3>criação</h3>
+          <button
+            type=""
+            onclick="clearCreated()"
+            style="background-color: #e46170"
+          >
+            Limpar
+          </button>
+        </div>
+      </div>
+
+      <div class="container">
+        <h1>Buscar Usuário por ID</h1>
+        <input
+          type="text"
+          name="user-id"
+          value=""
+          id="user-id-input"
+          placeholder="ID do Usuário"
+        />
+        <button type="" onclick="getUserByID(event)">Buscar</button>
+        <div class="result-get-id" style="display: none">
+          <h2>Usuário achado:</h2>
+          <h3>id</h3>
+          <h3>nome</h3>
+          <h3>email</h3>
+          <h3>criação</h3>
+          <button type="" onclick="clearID()" style="background-color: #e46170">
+            Limpar
+          </button>
+        </div>
+      </div>
+
+      <div class="container">
+        <h1>Deletar Usuário por ID</h1>
+        <input
+          type="text"
+          name="user-id"
+          value=""
+          id="delete-user-id-input"
+          placeholder="ID do Usuário"
+        />
+        <button type="" onclick="deleteUser(event)">Apagar</button>
+      </div>
+
+      <div class="container">
+        <h1>Atualizar Usuário</h1>
+        <input
+          type="text"
+          name="user-id"
+          value=""
+          id="update-user-id-input"
+          placeholder="ID do Usuário"
+        />
+        <button type="" onclick="searchUser(event)">Atualizar</button>
+        <br />
+        <br />
+        <form action="" id="update-user-form">
+          <input type="text" name="username" value="" placeholder="Nome" />
+          <input type="text" name="email" value="" placeholder="Email" />
+          <input type="password" name="password" value="" placeholder="Senha" />
+        </form>
+        <div class="result-update" style="display: none">
+          <h2>Usuário atualizado:</h2>
+          <h3>id</h3>
+          <h3>nome</h3>
+          <h3>email</h3>
+          <h3>criação</h3>
+          <button
+            type=""
+            onclick="clearUpdate()"
+            style="background-color: #e46170"
+          >
+            Limpar
+          </button>
+        </div>
+      </div>
+    </div>
+    <script src="app.js"></script>
+  </body>
+</html>

@@ -75,3 +75,16 @@ input {
     align-content: center;
     /* align-items: center; */
 }
+
+.container-login {
+    background-color: #dbd8e1;
+    display: flex;
+    margin: auto;
+    width: 40%;
+    margin-top: 10rem;
+    padding: 3rem;
+}
+
+.container-login button {
+    margin-top: 1rem;
+}
