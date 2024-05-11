@@ -16,10 +16,7 @@ function generateToken(event) {
         let token = email + ":" + senha;
         token = btoa(token);
         verify_user(token);
-        // // authToken = token;
-        // sessionStorage.setItem("token", token);
-        // window.location.href = "home.html";
-        // event.preventDefault();
+        event.preventDefault();
     }
     event.preventDefault();
 }
@@ -32,9 +29,7 @@ window.addEventListener("load", (e) => {
 });
 
 async function verify_user(token) {
-    let userID = 1;
-    let path = PORT + `users/${userID}`;
-
+    let path = PORT + "users";
     fetch(path, {
         headers: {
             Authorization: `Basic ${token}`,
@@ -47,10 +42,12 @@ async function verify_user(token) {
             return response.json();
         })
         .then((data) => {
+            console.log(data)
             sessionStorage.setItem("token", token);
             window.location.href = "home.html";
         })
         .catch((error) => {
+            console.log("this is the error");
             console.error("Error:", error);
             window.location.href = "create.html";
         });
@@ -116,15 +113,6 @@ async function getAllUsers(event) {
                 Authorization: `Basic ${sessionStorage.getItem("token")}`,
             },
         });
-        // fetch(path, {
-        //     method: "PUT",
-        //     headers: {
-        //         Authorization: `Basic ${sessionStorage.getItem("token")}`,
-        //         "Content-Type": "application/json",
-        //     },
-
-        //     body: JSON.stringify(userData),
-        // })
 
         if (!res.ok) {
             throw new Error("Network response was not ok");

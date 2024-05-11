@@ -14,17 +14,28 @@
   </head>
 
   <body>
-        <div class="container-login">
-            <form style="text-align: center;">
-                <label for="nome">Email</label>
-                <input type="text" name="email" value="" placeholder="Email" style="margin-block: 1rem;">
-                <br>
-                <label for="senha">Senha</label>
-                <input type="password" name="senha" value="" placeholder="Senha">
-                <br>
-                <button onclick="generateToken(event)">Entrar</button>
-            </form>
-        </div>
+    <div class="global-container">
+      <div class="container-login">
+        <form style="">
+          <h1>Entrar</h1>
+          <label for="nome">Email</label>
+          <br />
+          <input
+            type="text"
+            name="email"
+            value=""
+            placeholder="Email"
+            style=""
+          />
+          <br />
+          <label for="senha">Senha</label>
+          <br />
+          <input type="password" name="senha" value="" placeholder="Senha" />
+          <br />
+          <button onclick="generateToken(event)">Entrar</button>
+        </form>
+      </div>
+    </div>
 
     <script src="app.js"></script>
   </body>
