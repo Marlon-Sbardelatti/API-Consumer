@@ -25,6 +25,7 @@ window.addEventListener("load", (e) => {
     if (window.location.href == "http://127.0.0.1:8080/home.html") {
         authToken = sessionStorage.getItem("token");
         console.log(authToken);
+        document.getElementById("user-li").innerText = sessionStorage.getItem("username");
     }
 });
 
@@ -42,7 +43,12 @@ async function verify_user(token) {
             return response.json();
         })
         .then((data) => {
-            console.log(data)
+            // console.log(data)
+            for (let user of data) {
+                if (user.email == document.getElementsByTagName("input")[0].value){
+                    sessionStorage.setItem("username", user.name);
+                }
+            }
             sessionStorage.setItem("token", token);
             window.location.href = "home.html";
         })
@@ -96,6 +102,7 @@ async function createRedirect(nome, email, senha) {
             let token = email + ":" + senha;
             token = btoa(token);
             sessionStorage.setItem("token", token);
+            sessionStorage.setItem("username", data.name);
             alert("Usuário criado com sucesso!");
             window.location.href = "home.html";
         })

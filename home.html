@@ -15,6 +15,17 @@
 
   <body>
     <div class="global">
+      <div class="container">
+        <header>
+          <ul>
+            <div style="display: flex; align-items: center; align-content: center;">
+              <img src="assets/icons8-avatar-48.png" style="height: 1.5rem;" alt="" />
+              <li id="user-li" style="margin-left: 0.5rem;">User</li>
+            </div>
+            <li><a href="index.html">Sair</a></li>
+          </ul>
+        </header>
+      </div>
       <div style="" class="container">
         <h1>Buscar todos Usuários</h1>
         <button onclick="getAllUsers(event)" id="btn-get-all">Buscar</button>
@@ -57,7 +68,7 @@
             onclick="createUser(event)"
             style="margin-left: 0.4rem"
           >
-           Criar 
+            Criar
           </button>
         </div>
         <div class="result-criar" style="display: none">

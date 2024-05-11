@@ -100,3 +100,12 @@ input {
   justify-content: center;
   margin-top: 10rem;
 }
+
+header ul {
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+} 
+header a {
+    text-decoration: none;
+} 
